@@ -733,11 +733,11 @@ public class JobsApiMockTest extends BaseJenkinsMockTest {
         JenkinsApi jenkinsApi = api(server.getUrl("/"));
         JobsApi api = jenkinsApi.jobsApi();
         try {
-            ProgressiveText output = api.progressiveText(null,"DevTest", 0);
+            ProgressiveText output = api.progressiveText(null,"DevTest",1, 0);
             assertNotNull(output);
             assertTrue(output.size() == 123);
             assertFalse(output.hasMoreData());
-            assertSentAcceptText(server, "GET", "/job/DevTest/lastBuild/logText/progressiveText?start=0");
+            assertSentAcceptText(server, "GET", "/job/DevTest/1/logText/progressiveText?start=0");
         } finally {
             jenkinsApi.close();
             server.shutdown();
@@ -751,9 +751,9 @@ public class JobsApiMockTest extends BaseJenkinsMockTest {
         JenkinsApi jenkinsApi = api(server.getUrl("/"));
         JobsApi api = jenkinsApi.jobsApi();
         try {
-            ProgressiveText output = api.progressiveText(null,"DevTest", 0);
+            ProgressiveText output = api.progressiveText(null,"DevTest",1, 0);
             assertNull(output);
-            assertSentAcceptText(server, "GET", "/job/DevTest/lastBuild/logText/progressiveText?start=0");
+            assertSentAcceptText(server, "GET", "/job/DevTest/1/logText/progressiveText?start=0");
         } finally {
             jenkinsApi.close();
             server.shutdown();

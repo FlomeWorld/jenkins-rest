@@ -107,7 +107,7 @@ public class JobsApiLiveTest extends BaseJenkinsApiLiveTest {
 
     @Test(dependsOnMethods = "testLastBuildTimestamp")
     public void testLastBuildGetProgressiveText() {
-        ProgressiveText output = api().progressiveText(null, "DevTest", 0);
+        ProgressiveText output = api().progressiveText(null, "DevTest", 1,0);
         assertNotNull(output);
         assertTrue(output.size() > 0);
         assertFalse(output.hasMoreData());
@@ -332,7 +332,7 @@ public class JobsApiLiveTest extends BaseJenkinsApiLiveTest {
 
     @Test(dependsOnMethods = "testLastBuildTimestampOfJobInFolder")
     public void testGetProgressiveText() {
-        ProgressiveText output = api().progressiveText("test-folder/test-folder-1", "JobInFolder", 0);
+        ProgressiveText output = api().progressiveText("test-folder/test-folder-1", "JobInFolder", 1,0);
         assertNotNull(output);
         assertTrue(output.size() > 0);
         assertFalse(output.hasMoreData());
@@ -452,45 +452,9 @@ public class JobsApiLiveTest extends BaseJenkinsApiLiveTest {
     }
 
     @Test
-    public void testSetDescriptionNonExistentJob() {
-        boolean success = api().description(null, randomString(), "RandomDescription");
+    public void testAbortBuilding(){
+        boolean success = api().abortBuilding(null, "simple-java-maven-ap", 1);
         assertFalse(success);
-    }
-
-    @Test
-    public void testGetDescriptionNonExistentJob() {
-        String output = api().description(null, randomString());
-        assertNull(output);
-    }
-
-    @Test
-    public void testBuildNonExistentJob() {
-        IntegerResponse output = api().build(null, randomString());
-        assertNotNull(output);
-        assertNull(output.value());
-        assertTrue(output.errors().size() > 0);
-        assertNotNull(output.errors().get(0).context());
-        assertNotNull(output.errors().get(0).message());
-        assertTrue(output.errors().get(0).exceptionName().equals("org.jclouds.rest.ResourceNotFoundException"));
-    }
-
-    @Test
-    public void testGetBuildInfoNonExistentJob() {
-        BuildInfo output = api().buildInfo(null, randomString(), 123);
-        assertNull(output);
-    }
-
-    @Test
-    public void testBuildNonExistentJobWithParams() {
-        Map<String, List<String>> params = new HashMap<>();
-        params.put("SomeKey", Lists.newArrayList("SomeVeryNewValue"));
-        IntegerResponse output = api().buildWithParameters(null, randomString(), params);
-        assertNotNull(output);
-        assertNull(output.value());
-        assertTrue(output.errors().size() > 0);
-        assertNotNull(output.errors().get(0).context());
-        assertNotNull(output.errors().get(0).message());
-        assertTrue(output.errors().get(0).exceptionName().equals("org.jclouds.rest.ResourceNotFoundException"));
     }
 
     private boolean isFolderPluginInstalled() {
