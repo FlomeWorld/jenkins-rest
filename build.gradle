@@ -64,7 +64,7 @@ tasks.withType(JavaCompile) {
 
 task mockTest(type: Test) {
     useTestNG()
-    include '**/**MockTest*'
+    include '**/CredentialsMockApiTest*'
     maxParallelForks = 2
     testLogging {
         showStandardStreams = true
@@ -72,7 +72,7 @@ task mockTest(type: Test) {
     }
 }
 
-task integTest(type: Test, dependsOn: mockTest) {
+task integTest(type: Test) {
     doFirst {
         def integProjectDir = project.file("${buildDir}/integ-projects")
         if (!integProjectDir.exists()) {
@@ -82,7 +82,7 @@ task integTest(type: Test, dependsOn: mockTest) {
         }
     }
     useTestNG()
-    include "**/**LiveTest*"
+    include "**/CredentialsApiLiveTest*"
     maxParallelForks = 1
     testLogging {
         showStandardStreams = true

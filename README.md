@@ -82,7 +82,7 @@ Running mock tests can be done like so:
 	
 Running integration tests can be done like so (requires existing jenkins instance):
 
-	./gradlew clean build integTest 
+        ./gradlew clean build integTest 
 	
 # Additional Resources
 
